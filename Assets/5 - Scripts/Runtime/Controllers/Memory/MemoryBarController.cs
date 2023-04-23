@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace DynamicMem
 {
@@ -7,6 +8,11 @@ namespace DynamicMem
         public void Init()
         {
 
+        }
+
+        public async UniTask AddTask(TaskController task)
+        {
+            
         }
     }
 }
