@@ -13,10 +13,12 @@ namespace DynamicMem
 
         [JsonProperty("name")]
         public string Name { get; }
-        [JsonProperty("lifetime")]
+        [JsonProperty("time")]
         public int Lifetime { get; set; }
-        [JsonProperty("memory")]
+        [JsonProperty("mem")]
         public int Memory { get; }
+        [JsonProperty("addr")]
+        public int Address { get; private set; }
 
         public TaskState CurrentState 
         {

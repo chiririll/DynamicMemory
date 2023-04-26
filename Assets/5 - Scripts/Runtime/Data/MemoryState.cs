@@ -17,5 +17,15 @@ namespace DynamicMem
         {
             
         }
+
+        public void AddTask(TaskManager task)
+        {
+            queue.Enqueue(task);
+        }
+
+        private void CheckMemory()
+        {
+
+        }
     }
 }
