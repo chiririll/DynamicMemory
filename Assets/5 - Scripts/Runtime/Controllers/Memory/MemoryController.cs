@@ -1,27 +1,55 @@
 ﻿using DynamicMem.Model;
+using System;
 using UniRx;
 using UnityEngine;
 
 namespace DynamicMem
 {
-    public class MemoryController : MonoBehaviour
+    public class MemoryController : MonoBehaviour, IDisposable
     {
         private Memory memory;
         private CompositeDisposable disp = new();
 
         [SerializeField] private TaskController taskPrefab;
 
-        public void Init(Memory memory)
+        public void SetData(Memory memory)
         {
             disp.Clear();
+            // TODO: Clear prefabs
+
             this.memory = memory;
 
-            // TODO: Subscribe
+            memory.OnTaskEnqueue.Subscribe(CreateTaskInQueue).AddTo(disp);
+            memory.OnTaskLoaded.Subscribe(LoadTask).AddTo(disp);
+            memory.OnTaskMoved.Subscribe(MoveTask).AddTo(disp);
+            memory.OnTaskUnloaded.Subscribe(UnloadTask).AddTo(disp);
+
+            // TODO: Load current state
         }
 
-        private void CreateTask()
+        private void CreateTaskInQueue(ITask task)
         {
 
+        }
+
+        private void LoadTask(ITask task)
+        {
+
+        }
+
+        private void MoveTask(ITask task)
+        {
+
+        }
+
+        private void UnloadTask(ITask task)
+        {
+
+        }
+
+        public void Dispose()
+        {
+            disp.Dispose();
         }
     }
 }
