@@ -1,114 +1,79 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 
 namespace DynamicMem.NewModel
 {
     public class Memory
     {
-        private Queue<Task> queue;
-        private List<Task> memory;
+        private MemoryInfo memory;
 
-        private State state;
-
+        private Defragmentator defragmentator;
+        
         private Subject<Task> onTaskCompleted = new();
 
-        public Memory() 
+        public Memory(int size)
         {
-            queue = new();
-            memory = new();
+            memory = new(size);
+            defragmentator = new(memory);
         }
 
         public IObservable<Task> OnTaskCompleted => onTaskCompleted;
 
+        public IObservable<Task> OnTaskEnqueue => memory.OnTaskEnqueue;
+        public IObservable<Task> OnTaskLoaded => memory.OnTaskLoaded;
+        public IObservable<Task> OnTaskMoved => memory.OnTaskMoved;
+        public IObservable<Task> OnTaskUnloaded => memory.OnTaskUnloaded;
+
         public void Tick()
         {
-            var toRemove = new List<Task>();
-            foreach (var task in memory)
+            if (defragmentator.Running)
             {
-                if (task.Status == Task.State.Running)
-                {
-                    task.Tick();
-                    continue;
-                }
-                if (task.Status == Task.State.Completed || task.Status == Task.State.Killed)
-                {
-                    toRemove.Add(task);
-                }
+                defragmentator.Tick();
+                return;
             }
-
-            for (var i = toRemove.Count - 1; i >= 0; i--)
-            {
-                onTaskCompleted.OnNext(toRemove[i]);
-                toRemove.RemoveAt(i);
-            }
+             
+            TickTasks();
+            UnloadFinished();
+            LoadFromQueue();
         }
 
-        public void Add(Task item)
+        private void TickTasks()
         {
-            queue.Enqueue(item);
-        }
-
-        private void ChekcMemory()
-        {
-            foreach (var task in memory)
-            {
-
-            }    
-        }
-
-        private void CheckTask(Task task)
-        {
-
-        }
-
-        private void AddTaskInMemory()
-        {
-            
-            memory.Sort((x, y) => x.Address.CompareTo(y.Address));
-        }
-
-        private int CalculateFreeSpace()
-        {
-            var addr = 0;
-            var freeSpace = 0;
-            foreach (var task in memory)
-            {
-                freeSpace += task.Address - addr;
-                addr = task.Address + task.Size;
-            }
-            return freeSpace;
-        }
-
-        private void Defragmentate()
-        {
-            foreach(var task in memory)
+            foreach (var task in memory.Memory)
             {
                 if (task.Status != Task.State.Running)
                     continue;
-                 
-                task.SetStatus(Task.State.Idle);
-            }
 
-            var addr = 0;
-            foreach(var task in memory)
-            {
-                task.SetAddress(0);
-                addr = task.Address + task.Size;
-                // TODO: Delay
-            }
-
-            foreach (var task in memory)
-            {
-                task.SetStatus(Task.State.Running);
+                //task.Tick();
             }
         }
 
-        public enum State
+        private void UnloadFinished()
         {
-            Idle,
-            Running,
-            Defragmentating
+            var finished = memory.Memory.Where(task => task.Status == Task.State.Completed || task.Status == Task.State.Killed);
+            foreach (var task in finished)
+            {
+                memory.UnloadTask(task);
+            }
+        }
+
+        private void LoadFromQueue()
+        {
+            if (!memory.HasTasksInQueue)
+                return;
+
+            if (memory.FreeSpace < memory.NextTask.Size)
+                return;
+
+            var address = memory.FindSuitableAddress(memory.NextTask.Size);
+            if (address > 0)
+            {
+                memory.LoadTask(address);
+                return;
+            }
+
+            defragmentator.Start();
         }
     }
 }
