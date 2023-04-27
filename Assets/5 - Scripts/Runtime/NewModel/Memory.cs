@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 
@@ -11,20 +12,24 @@ namespace DynamicMem.NewModel
         private Defragmentator defragmentator;
         
         private Subject<Task> onTaskCompleted = new();
+        private Subject<Task> onTaskMoved = new();
 
         public Memory(int size)
         {
             memory = new(size);
-            defragmentator = new(memory);
+            defragmentator = new(this);
         }
 
-        public IObservable<Task> OnTaskCompleted => onTaskCompleted;
+        public IEnumerable<ITask> Queue => memory.Queue;
+        public IReadOnlyList<ITask> LoadedTasks => memory.Memory;
 
-        public IObservable<Task> OnTaskEnqueue => memory.OnTaskEnqueue;
-        public IObservable<Task> OnTaskLoaded => memory.OnTaskLoaded;
-        public IObservable<Task> OnTaskMoved => memory.OnTaskMoved;
-        public IObservable<Task> OnTaskUnloaded => memory.OnTaskUnloaded;
+        public IObservable<ITask> OnTaskCompleted => onTaskCompleted;
+        public IObservable<ITask> OnTaskEnqueue => memory.OnTaskEnqueue;
+        public IObservable<ITask> OnTaskLoaded => memory.OnTaskLoaded;
+        public IObservable<ITask> OnTaskMoved => onTaskMoved;
+        public IObservable<ITask> OnTaskUnloaded => memory.OnTaskUnloaded;
 
+        #region Tick
         public void Tick()
         {
             if (defragmentator.Running)
@@ -45,7 +50,7 @@ namespace DynamicMem.NewModel
                 if (task.Status != Task.State.Running)
                     continue;
 
-                //task.Tick();
+                task.Tick();
             }
         }
 
@@ -74,6 +79,40 @@ namespace DynamicMem.NewModel
             }
 
             defragmentator.Start();
+        }
+        #endregion Tick
+
+        public void MoveTask(int taskIndex, int address)
+        {
+            if (taskIndex < 0 || taskIndex >= memory.Memory.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(taskIndex));
+            }
+
+            var task = memory.Memory[taskIndex];
+
+            if (task.Status == Task.State.Running)
+            {
+                throw new ArgumentException("Cannot move running task");
+            }
+
+            task.Move(address);
+            onTaskMoved.OnNext(task);
+        }
+
+        public void SuspendTask(ITask task) => SetTaskStatus(task, Task.State.Idle);
+        public void ResumeTask(ITask task) => SetTaskStatus(task, Task.State.Running);
+        public void KillTask(ITask task) => SetTaskStatus(task, Task.State.Killed);
+
+        public void SetTaskStatus(ITask itask, Task.State status)
+        {
+            var task = memory.Memory.Find(task => task.Id.Equals(itask.Id));
+            if (task == null)
+            {
+                throw new ArgumentException("Task not loaded or does not exists!");
+            }
+
+            task.SetStatus(status);
         }
     }
 }

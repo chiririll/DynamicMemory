@@ -35,6 +35,11 @@ namespace DynamicMem.NewModel
         public void Tick()
         {
             Lifetime++;
+
+            if (Lifetime >= MaxLifetime)
+            {
+                SetStatus(State.Completed);
+            }
         }
 
         public void SetStatus(State status)

@@ -2,12 +2,12 @@
 {
     public class Defragmentator
     {
-        private MemoryInfo memory;
+        private Memory memory;
         
         private int lastAddr;
         private int currentIndex;
 
-        public Defragmentator(MemoryInfo memory)
+        public Defragmentator(Memory memory)
         {
             this.memory = memory;
 
@@ -24,13 +24,13 @@
                 return;
             }
 
-            if (currentIndex >= memory.Memory.Count)
+            if (currentIndex >= memory.LoadedTasks.Count)
             {
                 Finish();
             }
 
             memory.MoveTask(currentIndex, lastAddr);
-            lastAddr += memory.Memory[currentIndex].Size;
+            lastAddr += memory.LoadedTasks[currentIndex].Size;
             currentIndex++;
         }
 
@@ -38,7 +38,7 @@
         {
             Running = true;
 
-            foreach (var task in memory.Memory)
+            foreach (var task in memory.LoadedTasks)
             {
                 if (task.Status != Task.State.Running)
                     continue;
@@ -54,7 +54,7 @@
             lastAddr = 0;
             currentIndex = 0;
 
-            foreach (var task in memory.Memory)
+            foreach (var task in memory.LoadedTasks)
             {
                 if (task.Status != Task.State.Idle)
                     continue;
