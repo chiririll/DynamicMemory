@@ -7,12 +7,10 @@ namespace DynamicMem.Model
 {
     public class Memory
     {
-        private MemoryInfo memory;
-
-        private Defragmentator defragmentator;
+        private readonly MemoryInfo memory;
+        private readonly Defragmentator defragmentator;
         
-        private Subject<Task> onTaskCompleted = new();
-        private Subject<Task> onTaskMoved = new();
+        private readonly Subject<Task> onTaskMoved = new();
 
         public Memory(int size)
         {
@@ -22,8 +20,8 @@ namespace DynamicMem.Model
 
         public IEnumerable<ITask> Queue => memory.Queue;
         public IReadOnlyList<ITask> LoadedTasks => memory.Memory;
+        public int Size => memory.Size;
 
-        public IObservable<ITask> OnTaskCompleted => onTaskCompleted;
         public IObservable<ITask> OnTaskEnqueue => memory.OnTaskEnqueue;
         public IObservable<ITask> OnTaskLoaded => memory.OnTaskLoaded;
         public IObservable<ITask> OnTaskMoved => onTaskMoved;

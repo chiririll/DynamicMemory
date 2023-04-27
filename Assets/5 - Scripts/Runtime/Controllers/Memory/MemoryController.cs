@@ -1,19 +1,20 @@
-﻿using UniRx;
+﻿using DynamicMem.Model;
+using UniRx;
 using UnityEngine;
 
 namespace DynamicMem
 {
     public class MemoryController : MonoBehaviour
     {
-        private MemoryManager manager;
+        private Memory memory;
         private CompositeDisposable disp = new();
 
         [SerializeField] private TaskController taskPrefab;
 
-        public void Init(MemoryManager manager)
+        public void Init(Memory memory)
         {
             disp.Clear();
-            this.manager = manager;
+            this.memory = memory;
 
             // TODO: Subscribe
         }

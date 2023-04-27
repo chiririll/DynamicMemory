@@ -6,28 +6,26 @@ namespace DynamicMem.Model
 {
     public class MemoryInfo
     {
-        private int size;
-
         private readonly Queue<Task> queue;
         private readonly List<Task> memory;
+
+        private readonly Subject<Task> onTaskEnqueue = new();
+        private readonly Subject<Task> onTaskLoaded = new();
+        private readonly Subject<Task> onTaskUnloaded = new();
 
         private bool memoryChanged;
         private int freeSpace;
 
-        private Subject<Task> onTaskEnqueue = new();
-        private Subject<Task> onTaskLoaded = new();
-        private Subject<Task> onTaskUnloaded = new();
-
         public MemoryInfo(int size) 
         {
-            this.size = size;
+            this.Size = size;
             this.freeSpace = size;
 
             queue = new();
             memory = new();
         }
 
-        public int Size => size;
+        public int Size { get; }
 
         public IEnumerable<Task> Queue => queue;
         public IReadOnlyList<Task> Memory => memory;
@@ -92,7 +90,7 @@ namespace DynamicMem.Model
                 addr = task.Address + task.Size;
             }
             
-            if (this.size - addr >= size)
+            if (Size - addr >= size)
             {
                 return addr;
             }
