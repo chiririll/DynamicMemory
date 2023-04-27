@@ -1,7 +1,7 @@
 ﻿using System;
 using UniRx;
 
-namespace DynamicMem.NewModel
+namespace DynamicMem.Model
 {
     public class Task : ITask
     {

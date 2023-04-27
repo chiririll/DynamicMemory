@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UniRx;
 
-namespace DynamicMem.NewModel
+namespace DynamicMem.Model
 {
     public class MemoryInfo
     {

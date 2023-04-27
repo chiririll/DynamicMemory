@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 
-namespace DynamicMem.NewModel
+namespace DynamicMem.Model
 {
     public class Memory
     {

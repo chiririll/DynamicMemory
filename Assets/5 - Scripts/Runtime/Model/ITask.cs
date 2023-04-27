@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DynamicMem.NewModel
+namespace DynamicMem.Model
 {
     public interface ITask
     {

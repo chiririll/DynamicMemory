@@ -1,4 +1,4 @@
-﻿namespace DynamicMem.NewModel
+﻿namespace DynamicMem.Model
 {
     public class Defragmentator
     {
