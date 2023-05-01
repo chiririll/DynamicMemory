@@ -10,7 +10,7 @@ namespace DynamicMem
 
         }
 
-        public async UniTask AddTask(TaskController task)
+        public async UniTask AddTask(TaskItem task)
         {
             await UniTask.DelayFrame(1);
         }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace DynamicMem
 {
-    public class TaskController : MonoBehaviour
+    public class TaskItem : MonoBehaviour
     {
         [SerializeField] private TMP_Text title;
         [SerializeField] private TMP_Text memoryUsage;

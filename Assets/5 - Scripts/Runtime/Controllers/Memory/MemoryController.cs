@@ -10,7 +10,7 @@ namespace DynamicMem
         private Memory memory;
         private CompositeDisposable disp = new();
 
-        [SerializeField] private TaskController taskPrefab;
+        [SerializeField] private TaskItem taskPrefab;
 
         public void SetData(Memory memory)
         {

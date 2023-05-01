@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicMem.Config;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
@@ -7,15 +8,18 @@ namespace DynamicMem.Model
 {
     public class Memory
     {
-        private readonly MemoryInfo memory;
-        private readonly Defragmentator defragmentator;
-        
+        private readonly MemoryConfig config;
+
         private readonly Subject<Task> onTaskMoved = new();
 
-        public Memory(int size)
+        private MemoryInfo memory;
+        private Defragmentator defragmentator;
+
+        public Memory(MemoryConfig config)
         {
-            memory = new(size);
-            defragmentator = new(this);
+            this.config = config;
+
+            ReloadConfig();
         }
 
         public IEnumerable<ITask> Queue => memory.Queue;
@@ -26,6 +30,14 @@ namespace DynamicMem.Model
         public IObservable<ITask> OnTaskLoaded => memory.OnTaskLoaded;
         public IObservable<ITask> OnTaskMoved => onTaskMoved;
         public IObservable<ITask> OnTaskUnloaded => memory.OnTaskUnloaded;
+
+        public void ReloadConfig()
+        {
+            memory = new(config.Size);
+            defragmentator = new(this);
+
+            // TODO: OS task
+        }
 
         #region Tick
         public void Tick()
