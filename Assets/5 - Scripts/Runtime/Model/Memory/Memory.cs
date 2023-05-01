@@ -51,6 +51,8 @@ namespace DynamicMem.Model
             TickTasks();
             UnloadFinished();
             LoadFromQueue();
+
+            UnityEngine.Debug.Log("Memory Tick");
         }
 
         private void TickTasks()
