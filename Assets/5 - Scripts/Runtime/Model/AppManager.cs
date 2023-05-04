@@ -14,14 +14,15 @@ namespace DynamicMem
         private SimulationManager simulationManager;
         private Memory memory;
 
-        public AppManager() 
+        public AppManager(AppConfig config) 
         {
-            config = new();
-
             simulationManager = new(config.simulation);
             memory = new(config.memory);
 
             simulationManager.OnSimulationTick.Subscribe(_ => memory.Tick()).AddTo(disp);
+
+            DI.Add(this);
+            this.LogMsg("Initialized");
         }
 
         public Memory Memory => memory;

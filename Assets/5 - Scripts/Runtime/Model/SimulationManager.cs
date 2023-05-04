@@ -16,6 +16,9 @@ namespace DynamicMem.Model
         {
             this.config = config;
             this.onSimulationTick = new();
+
+            DI.Add(this);
+            this.LogMsg("Initialized");
         }
 
         public IObservable<float> OnSimulationTick => onSimulationTick;

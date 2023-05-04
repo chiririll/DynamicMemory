@@ -10,5 +10,10 @@ namespace DynamicMem
         [SerializeField] private TMP_Text usedSpace;
         [SerializeField] private TMP_Text freeSpace;
         [SerializeField] private TMP_Text fragmentation;
+
+        public void Init()
+        {
+
+        }
     }
 }
