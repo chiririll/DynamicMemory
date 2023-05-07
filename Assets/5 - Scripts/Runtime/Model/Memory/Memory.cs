@@ -6,7 +6,7 @@ using UniRx;
 
 namespace DynamicMem.Model
 {
-    public class Memory
+    public class MemoryManager
     {
         private readonly MemoryConfig config;
 
@@ -15,11 +15,14 @@ namespace DynamicMem.Model
         private MemoryInfo memory;
         private Defragmentator defragmentator;
 
-        public Memory(MemoryConfig config)
+        public MemoryManager(MemoryConfig config)
         {
             this.config = config;
 
             ReloadConfig();
+
+            DI.Add(this);
+            this.LogMsg("Initialized");
         }
 
         public IEnumerable<ITask> Queue => memory.Queue;
@@ -84,7 +87,7 @@ namespace DynamicMem.Model
                 return;
 
             var address = memory.FindSuitableAddress(memory.NextTask.Size);
-            if (address > 0)
+            if (address >= 0)
             {
                 memory.LoadTask(address);
                 return;
@@ -93,6 +96,8 @@ namespace DynamicMem.Model
             defragmentator.Start();
         }
         #endregion Tick
+
+        public void AddTask(Task task) => memory.AddTask(task);
 
         public void MoveTask(int taskIndex, int address)
         {

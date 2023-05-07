@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using DynamicMem.Model;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,14 +13,21 @@ namespace DynamicMem
         [SerializeField] private TMP_InputField size;
         [SerializeField] private Button submit;
 
+        private LazyInject<MemoryManager> memory = new();
+
         public void Init()
         {
-            submit.OnClickAsObservable().Subscribe(_ => UpdateMemorySettings()).AddTo(this);
+            submit.OnClickAsObservable().Subscribe(_ => AddTask()).AddTo(this);
         }
 
-        private void UpdateMemorySettings()
+        private void AddTask()
         {
-
+            var task = new Task(
+                System.Convert.ToInt32(size.text), 
+                System.Convert.ToInt32(lifetime.text),
+                label.text);
+            
+            memory.Value.AddTask(task);
         }
     }
 }

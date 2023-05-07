@@ -12,9 +12,9 @@ namespace DynamicMem
         [SerializeField] private MemorySettingsController memory;
         [SerializeField] private SimulationStateController simulationState;
 
-        public void Init()
+        public void SetData(SettingsManager manager)
         {
-            manager = new();
+            this.manager = manager;
 
             addTask.Init();
             simulation.Init();

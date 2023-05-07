@@ -6,6 +6,7 @@ namespace DynamicMem
     public class AppController : MonoBehaviour
     {
         [SerializeField] private MemoryController memoryController;
+        [SerializeField] private SettingsController settingsController;
 
         private AppManager manager;
         private AppConfig config;
@@ -18,6 +19,7 @@ namespace DynamicMem
         public void Start()
         {
             memoryController.SetData(manager.Memory);
+            settingsController.SetData(manager.SettingsManager);
         }
 
         public void Update()

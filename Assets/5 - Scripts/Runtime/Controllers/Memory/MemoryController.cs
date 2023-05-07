@@ -7,12 +7,12 @@ namespace DynamicMem
 {
     public class MemoryController : MonoBehaviour, IDisposable
     {
-        private Memory memory;
+        private MemoryManager memory;
         private CompositeDisposable disp = new();
 
         [SerializeField] private TaskItem taskPrefab;
 
-        public void SetData(Memory memory)
+        public void SetData(MemoryManager memory)
         {
             disp.Clear();
             // TODO: Clear prefabs

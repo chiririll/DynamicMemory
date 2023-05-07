@@ -2,12 +2,12 @@
 {
     public class Defragmentator
     {
-        private Memory memory;
+        private MemoryManager memory;
         
         private int lastAddr;
         private int currentIndex;
 
-        public Defragmentator(Memory memory)
+        public Defragmentator(MemoryManager memory)
         {
             this.memory = memory;
 
@@ -15,7 +15,7 @@
             currentIndex = 0;
         }
 
-        public bool Running { get; private set; }
+        public bool Running { get; private set; } = false;
 
         public void Tick()
         {
