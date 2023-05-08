@@ -7,26 +7,30 @@ namespace DynamicMem.Model
     {
         private Subject<State> onStatusChanged;
 
+        private IntReactiveProperty lifetime;
+        private ReactiveProperty<State> status;
+
         public Task(int size, int maxLifetime, string label = null)
         {
             Id = new();
 
-            Status = State.Idle;
+            status = new(State.Idle);
             Size = size;
             Address = -1;
             
-            Label = string.IsNullOrEmpty(label) ? $"Task {Id}" : label;
-            Lifetime = 0;
+            Label = string.IsNullOrEmpty(label) ? $"Task #{Id}" : label;
+            lifetime = new(0);
             MaxLifetime = maxLifetime;
         }
 
         public TaskId Id { get; }
 
         public string Label { get; private set; }
-        public int Lifetime { get; private set; }
         public int MaxLifetime { get; private set; }
 
-        public State Status { get; private set; }
+        public IReadOnlyReactiveProperty<int> Lifetime => lifetime;
+        public IReadOnlyReactiveProperty<State> Status => status;
+
         public int Size { get; private set; }
         public int Address { get; private set; }
 
@@ -34,9 +38,9 @@ namespace DynamicMem.Model
 
         public void Tick()
         {
-            Lifetime++;
+            lifetime.Value++;
 
-            if (Lifetime >= MaxLifetime)
+            if (lifetime.Value >= MaxLifetime)
             {
                 SetStatus(State.Completed);
             }
@@ -44,7 +48,7 @@ namespace DynamicMem.Model
 
         public void SetStatus(State status)
         {
-            Status = status;
+            this.status.Value = status;
         }
 
         public void Load(int address) => Address = address;

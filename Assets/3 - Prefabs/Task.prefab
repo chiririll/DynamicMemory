@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 236264611456898034}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 1951501470835817457}
   - component: {fileID: 1075198915261376136}
   - component: {fileID: 5597100838582174329}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 2815321519981337433}
   - component: {fileID: 2815321519981337435}
   - component: {fileID: 2815321519981337434}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 2815321520675967603}
   - component: {fileID: 2815321520675967565}
   - component: {fileID: 2815321520675967564}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Memory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 2815321520862850550}
   - component: {fileID: 2815321520862850544}
   - component: {fileID: 2815321520862850551}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 2815321521035410738}
   - component: {fileID: 695509304143397335}
   - component: {fileID: 5770331563384285006}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Task
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,6 +516,17 @@ MonoBehaviour:
   title: {fileID: 2815321520862850551}
   memoryUsage: {fileID: 2815321520675967564}
   progress: {fileID: 1994549310760966115}
+  background: {fileID: 2815321519981337434}
+  defaultColor: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
+  stateColors:
+  - state: 0
+    color: {r: 0, g: 0.60784316, b: 0, a: 1}
+  - state: 1
+    color: {r: 0.9137255, g: 0.9137255, b: 0, a: 1}
+  - state: 2
+    color: {r: 0, g: 0.43137255, b: 0.92156863, a: 1}
+  - state: 3
+    color: {r: 0.92156863, g: 0, b: 0, a: 1}
 --- !u!114 &5770331563384285006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,7 +557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 957080824936802302}
   - component: {fileID: 1994549310760966115}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Progress
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -637,7 +648,7 @@ GameObject:
   - component: {fileID: 1903526666723590679}
   - component: {fileID: 4280874354823220368}
   - component: {fileID: 2346278541433934426}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}

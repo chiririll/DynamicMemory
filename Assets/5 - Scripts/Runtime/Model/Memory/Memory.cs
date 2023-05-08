@@ -62,7 +62,7 @@ namespace DynamicMem.Model
         {
             foreach (var task in memory.Memory)
             {
-                if (task.Status != Task.State.Running)
+                if (task.Status.Value != Task.State.Running)
                     continue;
 
                 task.Tick();
@@ -71,7 +71,7 @@ namespace DynamicMem.Model
 
         private void UnloadFinished()
         {
-            var finished = memory.Memory.Where(task => task.Status == Task.State.Completed || task.Status == Task.State.Killed);
+            var finished = memory.Memory.Where(task => task.Status.Value == Task.State.Completed || task.Status.Value == Task.State.Killed);
             foreach (var task in finished)
             {
                 memory.UnloadTask(task);
@@ -108,7 +108,7 @@ namespace DynamicMem.Model
 
             var task = memory.Memory[taskIndex];
 
-            if (task.Status == Task.State.Running)
+            if (task.Status.Value == Task.State.Running)
             {
                 throw new ArgumentException("Cannot move running task");
             }

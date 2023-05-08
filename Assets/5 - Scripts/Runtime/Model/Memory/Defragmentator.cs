@@ -40,7 +40,7 @@
 
             foreach (var task in memory.LoadedTasks)
             {
-                if (task.Status != Task.State.Running)
+                if (task.Status.Value != Task.State.Running)
                     continue;
 
                 memory.SuspendTask(task);
@@ -56,7 +56,7 @@
 
             foreach (var task in memory.LoadedTasks)
             {
-                if (task.Status != Task.State.Idle)
+                if (task.Status.Value != Task.State.Idle)
                     continue;
 
                 memory.ResumeTask(task);

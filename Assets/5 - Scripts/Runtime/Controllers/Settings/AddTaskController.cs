@@ -22,6 +22,7 @@ namespace DynamicMem
 
         private void AddTask()
         {
+            // TODO: Check values and highlight error
             var task = new Task(
                 System.Convert.ToInt32(size.text), 
                 System.Convert.ToInt32(lifetime.text),

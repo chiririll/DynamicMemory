@@ -55,8 +55,6 @@ namespace DynamicMem.Model
 
             queue.Enqueue(task);
             onTaskEnqueue.OnNext(task);
-
-            this.LogMsg($"Added task. In queue: {queue.Count}");
         }
 
         public void LoadTask(int address)
