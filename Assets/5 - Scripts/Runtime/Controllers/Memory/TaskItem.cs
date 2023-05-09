@@ -12,6 +12,7 @@ namespace DynamicMem
         private static readonly string[] MemoryUnits = { "B", "KB", "MB", "GB", "TB", "PB" };
         private const int MemoryMax = 1 << 10;
 
+        [SerializeField] private RectTransform rt;
         [SerializeField] private TMP_Text title;
         [SerializeField] private TMP_Text memoryUsage;
         [SerializeField] private Slider progress;
@@ -35,6 +36,11 @@ namespace DynamicMem
 
             task.Status.Subscribe(OnStatusChanged);
             OnStatusChanged(task.Status.Value);
+        }
+
+        public void SetWidth(float width)
+        {
+            rt.sizeDelta = new Vector2(width, rt.sizeDelta.y);
         }
 
         private void OnStatusChanged(Task.State state)

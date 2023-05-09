@@ -71,9 +71,15 @@ namespace DynamicMem.Model
 
         private void UnloadFinished()
         {
-            var finished = memory.Memory.Where(task => task.Status.Value == Task.State.Completed || task.Status.Value == Task.State.Killed);
-            foreach (var task in finished)
+            for (var i = 0; i < memory.Memory.Count; )
             {
+                var task = memory.Memory[i];
+                if (task.Status.Value != Task.State.Completed &&
+                    task.Status.Value != Task.State.Killed)
+                {
+                    i++;
+                    continue;
+                }
                 memory.UnloadTask(task);
             }
         }

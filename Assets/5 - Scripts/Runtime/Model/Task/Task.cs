@@ -17,7 +17,7 @@ namespace DynamicMem.Model
             status = new(State.Idle);
             Size = size;
             Address = -1;
-            
+
             Label = string.IsNullOrEmpty(label) ? $"Task #{Id}" : label;
             lifetime = new(0);
             MaxLifetime = maxLifetime;
@@ -51,7 +51,12 @@ namespace DynamicMem.Model
             this.status.Value = status;
         }
 
-        public void Load(int address) => Address = address;
+        public void Load(int address) 
+        { 
+            Address = address; 
+            status.Value = State.Running; 
+        }
+
         public void Unload() => Address = -1;
         public void Move(int address)
         {

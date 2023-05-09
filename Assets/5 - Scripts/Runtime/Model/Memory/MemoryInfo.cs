@@ -101,13 +101,11 @@ namespace DynamicMem.Model
 
         private void CalculateFreeSpace()
         {
-            var addr = 0;
-            var freeSpace = 0;
+            var freeSpace = Size;
 
             foreach (var task in memory)
             {
-                freeSpace += task.Address - addr;
-                addr = task.Address + task.Size;
+                freeSpace -= task.Size;
             }
             
             this.freeSpace = freeSpace;

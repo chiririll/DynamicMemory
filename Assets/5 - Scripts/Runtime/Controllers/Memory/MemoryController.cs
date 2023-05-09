@@ -1,8 +1,11 @@
-﻿using DynamicMem.Model;
+﻿using DG.Tweening;
+using DynamicMem.Config;
+using DynamicMem.Model;
 using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace DynamicMem
 {
@@ -13,6 +16,7 @@ namespace DynamicMem
         [SerializeField] private Transform queueContainer;
         [SerializeField] private RectTransform memoryContainer;
 
+        private AppConfig config;
         private MemoryManager memory;
         private CompositeDisposable disp = new();
 
@@ -31,6 +35,7 @@ namespace DynamicMem
             }
 
             this.memory = memory;
+            this.config = DI.Get<AppConfig>();
 
             memory.OnTaskEnqueue.Subscribe(CreateTaskInQueue).AddTo(disp);
             memory.OnTaskLoaded.Subscribe(LoadTask).AddTo(disp);
@@ -50,17 +55,38 @@ namespace DynamicMem
 
         private void LoadTask(ITask task)
         {
-            this.LogMsg("Loading task to memory");
+            var item = tasks[task.Id];
+
+            item.transform.SetParent(memoryContainer, true);
+
+            SetTaskPosition(task, item);
         }
 
         private void MoveTask(ITask task)
         {
-            this.LogMsg("Moving task");
+            var item = tasks[task.Id];
+
+            SetTaskPosition(task, item);
         }
 
         private void UnloadTask(ITask task)
         {
-            this.LogMsg("Unloading task");
+            var item = tasks[task.Id];
+            
+            tasks.Remove(task.Id);
+            item.transform.DOMoveY(-100, config.simulation.TickTime).SetEase(Ease.Linear);
+            Destroy(item.gameObject, config.simulation.TickTime);
+        }
+
+        private void SetTaskPosition(ITask task, TaskItem item)
+        {
+            var k = memoryContainer.rect.width / config.memory.Size;
+            var duration = config.simulation.TickTime / 2;
+            item.SetWidth(k * task.Size);
+            item.transform.DOMoveX(
+                memoryContainer.position.x + k * task.Address, 
+                duration);
+            item.transform.DOMoveY(memoryContainer.position.y, duration);
         }
 
         public void Dispose()

@@ -513,6 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b4b428d9b37234396873f9cd9b9d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rt: {fileID: 2815321521035410738}
   title: {fileID: 2815321520862850551}
   memoryUsage: {fileID: 2815321520675967564}
   progress: {fileID: 1994549310760966115}
