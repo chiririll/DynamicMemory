@@ -34,7 +34,7 @@ namespace DynamicMem
             memory.OnTaskMoved.Subscribe(MoveTask).AddTo(disp);
             memory.OnTaskUnloaded.Subscribe(UnloadTask).AddTo(disp);
 
-            memory.OnConfigReloaded.Subscribe(_ => Cleanup()).AddTo(disp);
+            memory.OnCleanupRequested.Subscribe(_ => Cleanup()).AddTo(disp);
 
             // TODO: Load current state
         }

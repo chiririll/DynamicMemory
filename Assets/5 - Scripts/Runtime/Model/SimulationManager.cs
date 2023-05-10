@@ -10,6 +10,7 @@ namespace DynamicMem.Model
 
         private readonly Subject<float> onSimulationTick;
 
+        private bool isRunning;
         private float passedTime;
 
         public SimulationManager(SimulationConfig config) 
@@ -25,15 +26,38 @@ namespace DynamicMem.Model
 
         public void Tick(float deltaTime)
         {
-            passedTime += deltaTime;
-            
-            if (passedTime < config.SimulationSpeed)
+            if (!isRunning)
             {
                 return;
             }
 
-            passedTime -= config.SimulationSpeed;
-            onSimulationTick.OnNext(config.SimulationSpeed);
+            passedTime += deltaTime;
+            
+            if (passedTime < config.TickTime)
+            {
+                return;
+            }
+
+            passedTime -= config.TickTime;
+            onSimulationTick.OnNext(config.TickTime);
+        }
+
+        public void ForceTick()
+        {
+            passedTime = 0;
+            onSimulationTick.OnNext(config.TickTime);
+        }
+
+        public void Pause()
+        {
+            isRunning = false;
+            this.LogMsg("Paused simulation");
+        }
+
+        public void Resume()
+        {
+            isRunning = true;
+            this.LogMsg("Resumed simulation");
         }
     }
 }
