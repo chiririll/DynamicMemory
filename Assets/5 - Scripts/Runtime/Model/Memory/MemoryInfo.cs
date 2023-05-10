@@ -25,7 +25,7 @@ namespace DynamicMem.Model
             memory = new();
         }
 
-        public int Size { get; }
+        public int Size { get; private set; }
 
         public IEnumerable<Task> Queue => queue;
         public IReadOnlyList<Task> Memory => memory;
@@ -110,6 +110,15 @@ namespace DynamicMem.Model
             
             this.freeSpace = freeSpace;
             memoryChanged = false;
+        }
+
+        public void Resize(int newSize)
+        {
+            this.Size = newSize;
+            this.freeSpace = newSize;
+
+            queue.Clear();
+            memory.Clear();
         }
     }
 }

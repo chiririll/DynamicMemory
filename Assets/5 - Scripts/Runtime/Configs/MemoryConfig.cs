@@ -1,14 +1,41 @@
+using System;
+using UniRx;
+
 namespace DynamicMem.Config
 {
     public class MemoryConfig
     {
+        private Subject<MemoryConfig> onChanged = new();
+
+        private int size;
+        private int osAllocated;
+
         public MemoryConfig() 
         {
-            Size = 1 << 15;
-            OsAllocated = 1 << 12;
+            size = 1 << 15;
+            osAllocated = 1 << 12;
         }
 
-        public int Size { get; set; }
-        public int OsAllocated { get; set; }
+        public IObservable<MemoryConfig> OnChanged => onChanged;
+
+        public int Size 
+        {
+            get => size;
+            set
+            {
+                size = value;
+                onChanged.OnNext(this);
+            }
+        }
+
+        public int OsAllocated
+        {
+            get => osAllocated;
+            set
+            {
+                osAllocated = value;
+                onChanged.OnNext(this);
+            }
+        }
     }
 }

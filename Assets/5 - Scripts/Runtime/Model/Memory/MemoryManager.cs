@@ -12,14 +12,16 @@ namespace DynamicMem.Model
 
         private readonly Subject<Task> onTaskMoved = new();
 
-        private MemoryInfo memory;
+        private readonly MemoryInfo memory;
         private Defragmentator defragmentator;
 
         public MemoryManager(MemoryConfig config)
         {
             this.config = config;
+            config.OnChanged.Subscribe(_ => ReloadConfig());
 
-            ReloadConfig();
+            memory = new(config.Size);
+            defragmentator = new(this);
 
             DI.Add(this);
             this.LogMsg("Initialized");
@@ -34,12 +36,12 @@ namespace DynamicMem.Model
         public IObservable<ITask> OnTaskMoved => onTaskMoved;
         public IObservable<ITask> OnTaskUnloaded => memory.OnTaskUnloaded;
 
-        public void ReloadConfig()
-        {
-            memory = new(config.Size);
-            defragmentator = new(this);
+        public IObservable<MemoryConfig> OnConfigReloaded => config.OnChanged;
 
-            // TODO: OS task
+        private void ReloadConfig()
+        {
+            memory.Resize(config.Size);
+            defragmentator = new(this);
         }
 
         #region Tick

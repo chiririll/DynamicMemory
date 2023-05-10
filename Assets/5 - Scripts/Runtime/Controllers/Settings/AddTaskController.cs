@@ -22,13 +22,30 @@ namespace DynamicMem
 
         private void AddTask()
         {
-            // TODO: Check values and highlight error
-            var task = new Task(
-                System.Convert.ToInt32(size.text), 
-                System.Convert.ToInt32(lifetime.text),
-                label.text);
-            
+            if (!ParseInputs(out var lifetime, out var size)) 
+                return;
+
+            var task = new Task(size, lifetime, label.text);
             memory.Value.AddTask(task);
+        }
+
+        private bool ParseInputs(out int lifetime, out int size)
+        {
+            var result = true;
+
+            if (!int.TryParse(this.lifetime.text, out lifetime) || lifetime < 0)
+            {
+                result = false;
+                this.lifetime.HighlightUntilClick();
+            }
+            
+            if (!int.TryParse(this.size.text, out size) || size < 0)
+            {
+                result = false;
+                this.size.HighlightUntilClick();
+            }
+            
+            return result;
         }
     }
 }

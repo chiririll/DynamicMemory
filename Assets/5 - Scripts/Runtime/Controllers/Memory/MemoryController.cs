@@ -24,15 +24,7 @@ namespace DynamicMem
 
         public void SetData(MemoryManager memory)
         {
-            disp.Clear();
-            
-            foreach (var item in tasks)
-            {
-                if (item.Value != null)
-                {
-                    Destroy(item.Value.gameObject);
-                }
-            }
+            Dispose();
 
             this.memory = memory;
             this.config = DI.Get<AppConfig>();
@@ -41,6 +33,8 @@ namespace DynamicMem
             memory.OnTaskLoaded.Subscribe(LoadTask).AddTo(disp);
             memory.OnTaskMoved.Subscribe(MoveTask).AddTo(disp);
             memory.OnTaskUnloaded.Subscribe(UnloadTask).AddTo(disp);
+
+            memory.OnConfigReloaded.Subscribe(_ => Cleanup()).AddTo(disp);
 
             // TODO: Load current state
         }
@@ -72,7 +66,7 @@ namespace DynamicMem
         private void UnloadTask(ITask task)
         {
             var item = tasks[task.Id];
-            
+
             tasks.Remove(task.Id);
             item.transform.DOMoveY(-100, config.simulation.TickTime).SetEase(Ease.Linear);
             Destroy(item.gameObject, config.simulation.TickTime);
@@ -84,14 +78,24 @@ namespace DynamicMem
             var duration = config.simulation.TickTime / 2;
             item.SetWidth(k * task.Size);
             item.transform.DOMoveX(
-                memoryContainer.position.x + k * task.Address, 
+                memoryContainer.position.x + k * task.Address,
                 duration);
             item.transform.DOMoveY(memoryContainer.position.y, duration);
         }
 
+        private void Cleanup()
+        {
+            foreach (var item in tasks)
+            {
+                Destroy(item.Value.gameObject);
+            }
+            tasks.Clear();
+        }
+
         public void Dispose()
         {
-            disp.Dispose();
+            disp.Clear();
+            Cleanup();
         }
     }
 }
