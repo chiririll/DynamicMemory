@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 namespace DynamicMem
 {
