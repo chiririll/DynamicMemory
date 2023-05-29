@@ -1,7 +1,6 @@
 ﻿using DynamicMem.Config;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UniRx;
 
 namespace DynamicMem.Model
@@ -13,13 +12,17 @@ namespace DynamicMem.Model
         private readonly Subject<Task> onTaskMoved = new();
         private readonly Subject<MemoryConfig> onCleanupRequested = new();
 
+        private readonly Subject<ITask> onTaskSelected = new();
+
         private readonly MemoryInfo memory;
         private Defragmentator defragmentator;
+
+        private CompositeDisposable disp = new();
 
         public MemoryManager(MemoryConfig config)
         {
             this.config = config;
-            config.OnChanged.Subscribe(_ => Clear());
+            config.OnSizeChanged.Subscribe(_ => Clear()).AddTo(disp);
 
             memory = new(config.Size);
             defragmentator = new(this);
@@ -32,12 +35,20 @@ namespace DynamicMem.Model
         public IReadOnlyList<ITask> LoadedTasks => memory.Memory;
         public int Size => memory.Size;
 
+        public int TasksInQueue => memory.TasksInQueue;
+        public int TasksInMemory => memory.LoadedTasksCount;
+
+        public int FreeSpace => memory.FreeSpace;
+        public float Fragmentation => memory.CountFragmentation();
+
         public IObservable<ITask> OnTaskEnqueue => memory.OnTaskEnqueue;
         public IObservable<ITask> OnTaskLoaded => memory.OnTaskLoaded;
         public IObservable<ITask> OnTaskMoved => onTaskMoved;
         public IObservable<ITask> OnTaskUnloaded => memory.OnTaskUnloaded;
-
         public IObservable<MemoryConfig> OnCleanupRequested => onCleanupRequested;
+
+        public IObservable<ITask> OnTaskSelected => onTaskSelected;
+        public ITask SelectedTask { get; private set; }
 
         public void Clear()
         {
@@ -96,7 +107,7 @@ namespace DynamicMem.Model
 
             if (memory.FreeSpace < memory.NextTask.Size)
                 return;
-
+            
             var address = memory.FindSuitableAddress(memory.NextTask.Size);
             if (address >= 0)
             {
@@ -141,6 +152,12 @@ namespace DynamicMem.Model
             }
 
             task.SetStatus(status);
+        }
+
+        public void SelectTask(ITask task)
+        {
+            SelectedTask = task;
+            onTaskSelected.OnNext(task);
         }
     }
 }

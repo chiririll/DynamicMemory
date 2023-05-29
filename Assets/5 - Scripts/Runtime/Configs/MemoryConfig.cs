@@ -5,7 +5,7 @@ namespace DynamicMem.Config
 {
     public class MemoryConfig
     {
-        private Subject<MemoryConfig> onChanged = new();
+        private Subject<MemoryConfig> onSizeChanged = new();
 
         private int size;
         private int osAllocated;
@@ -16,7 +16,7 @@ namespace DynamicMem.Config
             osAllocated = 1 << 12;
         }
 
-        public IObservable<MemoryConfig> OnChanged => onChanged;
+        public IObservable<MemoryConfig> OnSizeChanged => onSizeChanged;
 
         public int Size 
         {
@@ -24,7 +24,7 @@ namespace DynamicMem.Config
             set
             {
                 size = value;
-                onChanged.OnNext(this);
+                onSizeChanged.OnNext(this);
             }
         }
 
@@ -34,7 +34,7 @@ namespace DynamicMem.Config
             set
             {
                 osAllocated = value;
-                onChanged.OnNext(this);
+                onSizeChanged.OnNext(this);
             }
         }
     }

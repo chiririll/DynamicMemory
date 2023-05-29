@@ -42,6 +42,7 @@ namespace DynamicMem
         {
             var taskItem = Instantiate(taskPrefab, queueContainer);
             tasks.Add(task.Id, taskItem);
+            taskItem.OnClick.Subscribe(_ => memory.SelectTask(task)).AddTo(taskItem);
 
             taskItem.SetData(task);
         }

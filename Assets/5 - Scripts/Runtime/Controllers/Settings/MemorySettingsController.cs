@@ -1,5 +1,4 @@
 ﻿using DynamicMem.Config;
-using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +7,7 @@ namespace DynamicMem
 {
     public class MemorySettingsController : MonoBehaviour
     {
-        [SerializeField] private TMP_InputField size;
-        //[SerializeField] private TMP_InputField osAllocated;
+        [SerializeField] private MemoryUnitInputField memorySize;
         [SerializeField] private Button submit;
 
         private LazyInject<AlertController> alertController = new();
@@ -39,10 +37,9 @@ namespace DynamicMem
         {
             var result = true;
 
-            if (!int.TryParse(this.size.text, out size) || size <= 0)
+            if (!memorySize.TryGetValue(out size))
             {
                 result = false;
-                this.size.HighlightUntilClick();
             }
 
             return result;

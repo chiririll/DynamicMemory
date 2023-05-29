@@ -8,7 +8,8 @@ namespace DynamicMem.Model
     {
         private readonly SimulationConfig config;
 
-        private readonly Subject<float> onSimulationTick;
+        private readonly Subject<float> onSimulationTick = new();
+        private readonly Subject<bool> onSimulationStateChanged = new();
 
         private bool isRunning;
         private float passedTime;
@@ -16,13 +17,15 @@ namespace DynamicMem.Model
         public SimulationManager(SimulationConfig config) 
         {
             this.config = config;
-            this.onSimulationTick = new();
 
             DI.Add(this);
             this.LogMsg("Initialized");
         }
 
         public IObservable<float> OnSimulationTick => onSimulationTick;
+        public IObservable<bool> OnSimulationStateChanged => onSimulationStateChanged;
+
+        public bool IsRunning => isRunning;
 
         public void Tick(float deltaTime)
         {
@@ -52,12 +55,14 @@ namespace DynamicMem.Model
         {
             isRunning = false;
             this.LogMsg("Paused simulation");
+            onSimulationStateChanged.OnNext(isRunning);
         }
 
         public void Resume()
         {
             isRunning = true;
             this.LogMsg("Resumed simulation");
+            onSimulationStateChanged.OnNext(isRunning);
         }
     }
 }

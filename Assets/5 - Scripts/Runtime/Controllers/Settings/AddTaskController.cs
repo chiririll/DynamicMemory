@@ -10,7 +10,7 @@ namespace DynamicMem
     {
         [SerializeField] private TMP_InputField label;
         [SerializeField] private TMP_InputField lifetime;
-        [SerializeField] private TMP_InputField size;
+        [SerializeField] private MemoryUnitInputField memorySize;
         [SerializeField] private Button submit;
 
         private LazyInject<MemoryManager> memory = new();
@@ -33,16 +33,15 @@ namespace DynamicMem
         {
             var result = true;
 
-            if (!int.TryParse(this.lifetime.text, out lifetime) || lifetime < 0)
+            if (!int.TryParse(this.lifetime.text, out lifetime) || lifetime <= 0)
             {
                 result = false;
                 this.lifetime.HighlightUntilClick();
             }
             
-            if (!int.TryParse(this.size.text, out size) || size < 0)
+            if (!memorySize.TryGetValue(out size, memory.Value.Size))
             {
                 result = false;
-                this.size.HighlightUntilClick();
             }
             
             return result;

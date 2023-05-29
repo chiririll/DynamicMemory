@@ -27,6 +27,9 @@ namespace DynamicMem.Model
 
         public int Size { get; private set; }
 
+        public int TasksInQueue => queue.Count;
+        public int LoadedTasksCount => memory.Count;
+
         public IEnumerable<Task> Queue => queue;
         public IReadOnlyList<Task> Memory => memory;
 
@@ -51,7 +54,6 @@ namespace DynamicMem.Model
         public void AddTask(Task task)
         {
             task.SetStatus(Task.State.Idle);
-
 
             queue.Enqueue(task);
             onTaskEnqueue.OnNext(task);
@@ -82,7 +84,7 @@ namespace DynamicMem.Model
         public int FindSuitableAddress(int size)
         {
             var addr = 0;
-
+            
             foreach (var task in memory)
             {
                 if (task.Address - addr >= size)
@@ -97,6 +99,20 @@ namespace DynamicMem.Model
             }
 
             return -1;
+        }
+
+        public float CountFragmentation()
+        {
+            var addr = 0;
+            var holesSum = 0;
+
+            foreach (var task in memory)
+            {
+                holesSum += task.Address - addr;
+                addr = task.Address + task.Size;
+            }
+
+            return (float)holesSum / Size;
         }
 
         private void CalculateFreeSpace()
