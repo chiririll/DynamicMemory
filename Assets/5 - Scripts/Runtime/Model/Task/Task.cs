@@ -51,10 +51,10 @@ namespace DynamicMem.Model
             this.status.Value = status;
         }
 
-        public void Load(int address) 
-        { 
-            Address = address; 
-            status.Value = State.Running; 
+        public void Load(int address)
+        {
+            Address = address;
+            status.Value = State.Running;
         }
 
         public void Unload() => Address = -1;

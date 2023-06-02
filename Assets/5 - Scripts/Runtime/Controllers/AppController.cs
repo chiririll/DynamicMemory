@@ -1,4 +1,4 @@
-﻿using DynamicMem.Config;
+using DynamicMem.Config;
 using UnityEngine;
 
 namespace DynamicMem

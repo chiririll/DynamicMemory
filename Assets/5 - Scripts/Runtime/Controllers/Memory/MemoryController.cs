@@ -43,6 +43,8 @@ namespace DynamicMem
             var taskItem = Instantiate(taskPrefab, queueContainer);
             tasks.Add(task.Id, taskItem);
             taskItem.OnClick.Subscribe(_ => memory.SelectTask(task)).AddTo(taskItem);
+            
+            SetTaskWidth(task, taskItem);
 
             taskItem.SetData(task);
         }
@@ -81,6 +83,12 @@ namespace DynamicMem
                 memoryContainer.position.x + k * task.Address,
                 duration);
             item.transform.DOMoveY(memoryContainer.position.y, duration);
+        }
+
+        private void SetTaskWidth(ITask task, TaskItem item)
+        {
+            var k = memoryContainer.rect.width / config.memory.Size;
+            item.SetWidth(k * task.Size);
         }
 
         private void Cleanup()
