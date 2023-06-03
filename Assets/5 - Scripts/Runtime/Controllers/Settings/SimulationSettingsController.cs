@@ -16,16 +16,14 @@ namespace DynamicMem
         [SerializeField] private Button nextButton;
         [SerializeField] private Button stopButton;
 
-        private LazyInject<AppConfig> config = new();
+        private readonly LazyInject<AppConfig> config = new();
 
-        private LazyInject<SimulationManager> simulationManager = new();
-        private LazyInject<MemoryManager> memoryManager = new();
-        private LazyInject<AlertController> alertController = new();
+        private readonly LazyInject<SimulationManager> simulationManager = new();
+        private readonly LazyInject<MemoryManager> memoryManager = new();
+        private readonly LazyInject<AlertController> alertController = new();
 
         public void Init()
         {
-            simulaitonSpeed.Init();
-
             simulaitonSpeed.SetValue(config.Value.simulation.SimulationSpeed, false);
             simulaitonSpeed.OnValueChanged.Subscribe(_ => UpdateSettings()).AddTo(this);
 

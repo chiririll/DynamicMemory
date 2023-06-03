@@ -35,6 +35,7 @@ namespace DynamicMem.Model
         public IReadOnlyList<ITask> LoadedTasks => memory.Memory;
         public int Size => memory.Size;
 
+        public bool HasAnyTasks => memory.TasksInQueue > 0 || memory.LoadedTasksCount > 0;
         public int TasksInQueue => memory.TasksInQueue;
         public int TasksInMemory => memory.LoadedTasksCount;
 
@@ -66,7 +67,7 @@ namespace DynamicMem.Model
                 defragmentator.Tick();
                 return;
             }
-             
+
             TickTasks();
             UnloadFinished();
             LoadFromQueue();
@@ -87,7 +88,7 @@ namespace DynamicMem.Model
 
         private void UnloadFinished()
         {
-            for (var i = 0; i < memory.Memory.Count; )
+            for (var i = 0; i < memory.Memory.Count;)
             {
                 var task = memory.Memory[i];
                 if (task.Status.Value != Task.State.Completed &&
@@ -107,7 +108,7 @@ namespace DynamicMem.Model
 
             if (memory.FreeSpace < memory.NextTask.Size)
                 return;
-            
+
             var address = memory.FindSuitableAddress(memory.NextTask.Size);
             if (address >= 0)
             {

@@ -27,6 +27,7 @@
             if (currentIndex >= memory.LoadedTasks.Count)
             {
                 Finish();
+                return;
             }
 
             memory.MoveTask(currentIndex, lastAddr);

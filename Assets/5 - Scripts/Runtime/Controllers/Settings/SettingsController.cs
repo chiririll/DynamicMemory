@@ -11,6 +11,8 @@ namespace DynamicMem
         [SerializeField] private SimulationSettingsController simulation;
         [SerializeField] private MemorySettingsController memory;
         [SerializeField] private SimulationStateController simulationState;
+        [SerializeField] private GenerateTasksController generateTasksController;
+        [Space]
         [SerializeField] private AlertController alertController;
 
         public void SetData(SettingsManager manager)
@@ -22,6 +24,7 @@ namespace DynamicMem
             simulation.Init();
             memory.Init();
             simulationState.Init();
+            generateTasksController.Init();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DynamicMem.Config;
+using DynamicMem.Model;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,8 +11,9 @@ namespace DynamicMem
         [SerializeField] private MemoryUnitInputField memorySize;
         [SerializeField] private Button submit;
 
-        private LazyInject<AlertController> alertController = new();
-        private LazyInject<AppConfig> config = new();
+        private readonly LazyInject<AlertController> alertController = new();
+        private readonly LazyInject<MemoryManager> memory = new();
+        private readonly LazyInject<AppConfig> config = new();
 
         public void Init()
         {
@@ -21,8 +23,18 @@ namespace DynamicMem
         private void ChangeSettingsClick()
         {
             if (!CheckFields(out var size))
+            {
                 return;
-            alertController.Value.Show(ApplySettings);
+            }
+
+            if (memory.Value.HasAnyTasks)
+            {
+                alertController.Value.Show(ApplySettings);
+            }
+            else
+            {
+                ApplySettings();
+            }
         }
 
         private void ApplySettings()

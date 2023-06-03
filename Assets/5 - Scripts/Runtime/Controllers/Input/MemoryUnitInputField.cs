@@ -21,12 +21,12 @@ namespace DynamicMem
             try
             {
                 value = int.Parse(this.size.text);
+                // FIXME: Handle overflow
+                value *= 1 << (10 * units.value);
                 if (value <= 0 || maxSize > 0 && value >= maxSize)
                 {
                     throw new System.ArgumentOutOfRangeException();
                 }
-                // TODO: Handle overflow
-                value *= 1 << (10 * units.value);
                 return true;
             }
             catch 

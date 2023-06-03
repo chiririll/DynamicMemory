@@ -30,6 +30,7 @@ namespace DynamicMem
 
             simulationManager.OnSimulationStateChanged.Subscribe(_ => UpdateState(_)).AddTo(this);
             simulationManager.OnSimulationTick.Subscribe(_ => Tick()).AddTo(this);
+            memory.OnCleanupRequested.Subscribe(_ => Tick()).AddTo(this);
 
             UpdateState(simulationManager.IsRunning);
             Tick();

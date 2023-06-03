@@ -24,7 +24,7 @@ namespace DynamicMem
         [SerializeField] private List<StateColor> stateColors;
         [SerializeField] private float shiftColorDuration;
 
-        private LazyInject<AppConfig> config = new();
+        private readonly LazyInject<AppConfig> config = new();
         private ITask task;
 
         public IObservable<Unit> OnClick => button.OnClickAsObservable();

@@ -29,7 +29,7 @@ namespace DynamicMem
             private set => SetValue(value, true);
         }
         
-        public void Init()
+        private void Awake()
         {
             value = Clamp(defaultValue);
             upDown.Text = Value.ToString();

@@ -1,12 +1,9 @@
-﻿using System;
-using UniRx;
+﻿using UniRx;
 
 namespace DynamicMem.Model
 {
     public class Task : ITask
     {
-        private Subject<State> onStatusChanged;
-
         private IntReactiveProperty lifetime;
         private ReactiveProperty<State> status;
 
@@ -33,8 +30,6 @@ namespace DynamicMem.Model
 
         public int Size { get; private set; }
         public int Address { get; private set; }
-
-        public IObservable<State> OnStatusChanged => onStatusChanged;
 
         public void Tick()
         {

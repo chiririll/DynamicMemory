@@ -13,7 +13,7 @@ namespace DynamicMem
         [SerializeField] private MemoryUnitInputField memorySize;
         [SerializeField] private Button submit;
 
-        private LazyInject<MemoryManager> memory = new();
+        private readonly LazyInject<MemoryManager> memory = new();
 
         public void Init()
         {
