@@ -9,7 +9,7 @@ namespace DynamicMem.Model
         private readonly Subject<bool> onDefragmentationEnded = new();
 
         private MemoryManager memory;
-        
+
         private int lastAddr;
         private int currentIndex;
 

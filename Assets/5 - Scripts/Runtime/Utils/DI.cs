@@ -12,7 +12,7 @@ namespace DynamicMem
             return (T)compositionRoot.GetValueOrDefault(typeof(T));
         }
 
-        public static void Add<T>(T item) 
+        public static void Add<T>(T item)
         {
             compositionRoot.Add(typeof(T), item);
         }

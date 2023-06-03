@@ -17,9 +17,9 @@ namespace DynamicMem
         public IObservable<Unit> OnUpClick => upButton.OnClickAsObservable();
         public IObservable<Unit> OnDownClick => downButton.OnClickAsObservable();
 
-        public string Text 
+        public string Text
         {
-            get => inputField.text; 
+            get => inputField.text;
             set => inputField.text = value;
         }
     }

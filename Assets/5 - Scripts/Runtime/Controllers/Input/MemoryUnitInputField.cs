@@ -29,8 +29,8 @@ namespace DynamicMem
                 }
                 return true;
             }
-            catch 
-            { 
+            catch
+            {
                 this.size.HighlightUntilClick();
                 return false;
             }

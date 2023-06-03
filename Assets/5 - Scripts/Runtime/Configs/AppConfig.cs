@@ -5,7 +5,7 @@ namespace DynamicMem.Config
         public readonly MemoryConfig memory;
         public readonly SimulationConfig simulation;
 
-        public AppConfig() 
+        public AppConfig()
         {
             memory = new();
             simulation = new();

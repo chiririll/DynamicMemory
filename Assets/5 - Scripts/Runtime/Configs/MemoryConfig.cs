@@ -10,7 +10,7 @@ namespace DynamicMem.Config
         private int size;
         private int osAllocated;
 
-        public MemoryConfig() 
+        public MemoryConfig()
         {
             size = 1 << 15;
             osAllocated = 1 << 12;
@@ -18,7 +18,7 @@ namespace DynamicMem.Config
 
         public IObservable<MemoryConfig> OnSizeChanged => onSizeChanged;
 
-        public int Size 
+        public int Size
         {
             get => size;
             set

@@ -21,14 +21,14 @@ namespace DynamicMem
 
 
         private T value;
-        
+
         public IObservable<T> OnValueChanged => onValueChanged;
-        public T Value 
-        { 
+        public T Value
+        {
             get => value;
             private set => SetValue(value, true);
         }
-        
+
         private void Awake()
         {
             value = Clamp(defaultValue);
@@ -42,15 +42,15 @@ namespace DynamicMem
         public void SetValue(T value, bool raiseEvent = true)
         {
             var trueVal = Clamp(value);
-            
+
             if (trueVal.Equals(this.value))
             {
                 return;
             }
-            
+
             this.value = trueVal;
             upDown.Text = this.value.ToString();
-            
+
             if (raiseEvent)
             {
                 onValueChanged?.OnNext(this.value);

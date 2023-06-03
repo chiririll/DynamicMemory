@@ -4,7 +4,7 @@ namespace DynamicMem
 {
     public static class LoggingExtensions
     {
-        public static void LogMsg<T>(this T obj, string message, Object context = null) 
+        public static void LogMsg<T>(this T obj, string message, Object context = null)
             => Log(LogType.Log, obj, message, context);
 
         public static void LogWarn<T>(this T obj, string message, Object context = null)
@@ -16,7 +16,7 @@ namespace DynamicMem
         {
             message = $"<b>[{typeof(T).Name}]</b>: {message}";
             context ??= obj as Object;
-            
+
             if (context != null)
             {
                 Debug.unityLogger.Log(type, (object)message, context);

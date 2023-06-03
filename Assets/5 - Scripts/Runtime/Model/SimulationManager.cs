@@ -14,7 +14,7 @@ namespace DynamicMem.Model
         private bool isRunning;
         private float passedTime;
 
-        public SimulationManager(SimulationConfig config) 
+        public SimulationManager(SimulationConfig config)
         {
             this.config = config;
 
@@ -35,7 +35,7 @@ namespace DynamicMem.Model
             }
 
             passedTime += deltaTime;
-            
+
             if (passedTime < config.TickTime)
             {
                 return;

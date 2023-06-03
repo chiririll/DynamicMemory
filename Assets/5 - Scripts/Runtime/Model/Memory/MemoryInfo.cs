@@ -16,7 +16,7 @@ namespace DynamicMem.Model
         private bool memoryChanged;
         private int freeSpace;
 
-        public MemoryInfo(int size) 
+        public MemoryInfo(int size)
         {
             this.Size = size;
             this.freeSpace = size;
@@ -37,15 +37,16 @@ namespace DynamicMem.Model
         public IObservable<Task> OnTaskLoaded => onTaskLoaded;
         public IObservable<Task> OnTaskUnloaded => onTaskUnloaded;
 
-        public int FreeSpace { 
-            get 
+        public int FreeSpace
+        {
+            get
             {
                 if (memoryChanged)
                 {
                     CalculateFreeSpace();
                 }
-                return freeSpace; 
-            } 
+                return freeSpace;
+            }
         }
 
         public bool HasTasksInQueue => queue.Count > 0;
@@ -68,7 +69,7 @@ namespace DynamicMem.Model
 
             memory.Sort((x, y) => x.Address.CompareTo(y.Address));
             memoryChanged = true;
-            
+
             onTaskLoaded.OnNext(task);
         }
 
@@ -84,7 +85,7 @@ namespace DynamicMem.Model
         public int FindSuitableAddress(int size)
         {
             var addr = 0;
-            
+
             foreach (var task in memory)
             {
                 if (task.Address - addr >= size)
@@ -92,7 +93,7 @@ namespace DynamicMem.Model
 
                 addr = task.Address + task.Size;
             }
-            
+
             if (Size - addr >= size)
             {
                 return addr;
@@ -123,7 +124,7 @@ namespace DynamicMem.Model
             {
                 freeSpace -= task.Size;
             }
-            
+
             this.freeSpace = freeSpace;
             memoryChanged = false;
         }

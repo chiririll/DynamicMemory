@@ -22,7 +22,7 @@ namespace DynamicMem
 
         private void AddTask()
         {
-            if (!ParseInputs(out var lifetime, out var size)) 
+            if (!ParseInputs(out var lifetime, out var size))
                 return;
 
             var task = new Task(size, lifetime, label.text);
@@ -34,12 +34,12 @@ namespace DynamicMem
             var result = true;
 
             lifetime = this.lifetime.Value;
-            
+
             if (!memorySize.TryGetValue(out size, memory.Value.Size))
             {
                 result = false;
             }
-            
+
             return result;
         }
     }

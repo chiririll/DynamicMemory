@@ -32,8 +32,8 @@ namespace DynamicMem
             simulationManager.OnSimulationStateChanged.Subscribe(_ => UpdateState()).AddTo(this);
             simulationManager.OnSimulationTick.Subscribe(_ => UpdateData()).AddTo(this);
             memory.OnCleanupRequested.Subscribe(_ => UpdateData()).AddTo(this);
-            memory.OnDefragmentationStarted.Subscribe(_=> UpdateState()).AddTo(this);
-            memory.OnDefragmentationEnded.Subscribe(_=> UpdateState()).AddTo(this);
+            memory.OnDefragmentationStarted.Subscribe(_ => UpdateState()).AddTo(this);
+            memory.OnDefragmentationEnded.Subscribe(_ => UpdateState()).AddTo(this);
 
             UpdateState();
             UpdateData();

@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks.Triggers;
 using DG.Tweening;
 using DynamicMem.Config;
 using DynamicMem.Model;
@@ -24,7 +23,7 @@ namespace DynamicMem
         [SerializeField] private Color defaultBgColor;
         [SerializeField] private Color defaultTextColor;
         [SerializeField] private List<StateColor> stateColors;
-        
+
         private readonly LazyInject<AppConfig> config = new();
         private AnimationManager animManager;
         private ITask task;
@@ -63,9 +62,9 @@ namespace DynamicMem
 
         public void UpdateProgress(int value)
         {
-            if (task.Status.Value != Task.State.Running) 
+            if (task.Status.Value != Task.State.Running)
                 return;
-            
+
             progressText.text = $"{value}/{task.MaxLifetime}";
             if (animManager.Enabled)
             {
@@ -96,7 +95,7 @@ namespace DynamicMem
                 textColor = item.textColor;
                 break;
             }
-            
+
             if (animManager.Enabled)
             {
                 background.DOColor(bgColor, animManager.ShiftColorTime);
@@ -114,9 +113,9 @@ namespace DynamicMem
         [System.Serializable]
         public class StateColor
         {
-            [field:SerializeField] public Task.State state { get; private set; }
-            [field:SerializeField] public Color bgColor { get; private set; }
-            [field:SerializeField] public Color textColor { get; private set; }
+            [field: SerializeField] public Task.State state { get; private set; }
+            [field: SerializeField] public Color bgColor { get; private set; }
+            [field: SerializeField] public Color textColor { get; private set; }
         }
     }
 }

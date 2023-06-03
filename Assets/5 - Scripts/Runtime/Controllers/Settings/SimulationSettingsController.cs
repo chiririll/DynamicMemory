@@ -38,8 +38,9 @@ namespace DynamicMem
             nextButton.OnClickAsObservable().
                 Subscribe(_ => simulationManager.Value.ForceTick()).AddTo(this);
             stopButton.OnClickAsObservable()
-                .Subscribe(_ => alertController.Value.Show(() => { 
-                    simulationManager.Value.Pause(); 
+                .Subscribe(_ => alertController.Value.Show(() =>
+                {
+                    simulationManager.Value.Pause();
                     memoryManager.Value.Clear();
                 })).AddTo(this);
         }

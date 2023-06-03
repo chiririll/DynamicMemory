@@ -18,7 +18,7 @@ namespace DynamicMem
         {
             confirmButton.OnClickAsObservable().Subscribe(_ => Hide(true)).AddTo(this);
             cancelButton.OnClickAsObservable().Subscribe(_ => Hide(false)).AddTo(this);
-            
+
             alertRoot.SetActive(false);
             DI.Add(this);
         }

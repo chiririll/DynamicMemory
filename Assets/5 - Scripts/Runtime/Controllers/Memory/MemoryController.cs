@@ -58,10 +58,10 @@ namespace DynamicMem
         {
             var taskItem = Instantiate(taskPrefab, queueContainer);
             taskItem.SetData(task, animManager.Value);
-            
+
             tasks.Add(task.Id, taskItem);
             taskItem.OnClick.Subscribe(_ => memory.SelectTask(task)).AddTo(taskItem);
-            
+
             SetTaskWidth(task, taskItem);
         }
 
@@ -113,7 +113,7 @@ namespace DynamicMem
                 var sequence = DOTween.Sequence();
                 sequence.Append(
                     item.transform.DOMoveY(
-                        item.transform.position.y + (memoryContainer.position.y - item.transform.position.y) / 2f, 
+                        item.transform.position.y + (memoryContainer.position.y - item.transform.position.y) / 2f,
                         animManager.Value.TaskSlideYTime));
                 sequence.Append(
                     item.transform.DOMoveX(
@@ -121,13 +121,13 @@ namespace DynamicMem
                         animManager.Value.TaskSlideXTime));
                 sequence.Append(
                     item.transform.DOMoveY(
-                        memoryContainer.position.y, 
+                        memoryContainer.position.y,
                         animManager.Value.TaskSlideYTime));
             }
             else
             {
                 item.transform.position = new Vector3(
-                    memoryContainer.position.x + k * task.Address, 
+                    memoryContainer.position.x + k * task.Address,
                     memoryContainer.position.y, item.transform.position.z);
             }
         }

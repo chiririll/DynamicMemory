@@ -31,7 +31,7 @@ namespace DynamicMem
         {
             config = new();
             DI.Add(config);
-            
+
             manager = new(config);
         }
     }

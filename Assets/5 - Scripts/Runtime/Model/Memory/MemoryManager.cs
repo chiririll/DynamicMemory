@@ -140,9 +140,9 @@ namespace DynamicMem.Model
                 throw new ArgumentException("Cannot move running task");
             }
 
-            if (task.Address == address) 
-            { 
-                return false; 
+            if (task.Address == address)
+            {
+                return false;
             }
 
             task.Move(address);

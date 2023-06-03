@@ -2,7 +2,7 @@
 {
     public class SettingsManager
     {
-        public SettingsManager() 
+        public SettingsManager()
         {
 
             DI.Add(this);

@@ -13,16 +13,16 @@ namespace DynamicMem.Model
 
         private bool animationsEnabled;
 
-        public bool Enabled 
+        public bool Enabled
         {
-            get => animationsEnabled; 
+            get => animationsEnabled;
             set => animationsEnabled = simulationConfig.TickTime >= animationsThreshold && value;
         }
-        
+
         public float ShiftColorTime { get; private set; }
         public float ProgressTime { get; private set; }
         public float TaskResizeTime { get; private set; }
-        
+
         public float UnloadTaskTime { get; private set; }
         public float UnloadTaskDelay { get; private set; }
 
@@ -60,10 +60,10 @@ namespace DynamicMem.Model
 
             UnloadTaskTime = halfTick;
             UnloadTaskDelay = halfTick;
-            
+
             TaskSlideYTime = simulationConfig.TickTime / 4f;
             TaskSlideXTime = halfTick;
-            
+
             TaskResizeTime = halfTick;
         }
     }

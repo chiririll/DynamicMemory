@@ -16,7 +16,7 @@ namespace DynamicMem
         private SettingsManager settingsManager;
         private AnimationManager animManager;
 
-        public AppManager(AppConfig config) 
+        public AppManager(AppConfig config)
         {
             simulationManager = new(config.simulation);
             memory = new(config.memory);

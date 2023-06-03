@@ -19,7 +19,7 @@ namespace DynamicMem
         {
             this.manager = manager;
             alertController.gameObject.SetActive(true);
-            
+
             addTask.Init();
             simulation.Init();
             memory.Init();
