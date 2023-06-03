@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks.Triggers;
 using DG.Tweening;
 using DynamicMem.Config;
 using DynamicMem.Model;
@@ -16,6 +17,7 @@ namespace DynamicMem
         [SerializeField] private TMP_Text title;
         [SerializeField] private TMP_Text memoryUsage;
         [SerializeField] private Slider progress;
+        [SerializeField] private TMP_Text progressText;
         [SerializeField] private Image background;
         [SerializeField] private Button button;
         [Space]
@@ -38,6 +40,7 @@ namespace DynamicMem
 
             memoryUsage.text = task.Size.ToMemoryString();
 
+            progress.gameObject.SetActive(false);
             progress.maxValue = task.MaxLifetime;
             task.Lifetime.Subscribe(UpdateProgress);
 
@@ -62,12 +65,23 @@ namespace DynamicMem
             if (task.Status.Value != Task.State.Running) 
                 return;
             
-            progress.value = value;
-            //progress.DOValue(value + 1, config.Value.simulation.TickTime).SetEase(Ease.Linear);
+            progressText.text = $"{value}/{progress.maxValue}";
+            if (animManager.Enabled && value < progress.maxValue)
+            {
+                progress.DOValue(value, animManager.ProgressTime).SetEase(Ease.Linear);
+            }
+            else
+            {
+                progress.value = value;
+            }
         }
 
         private void OnStatusChanged(Task.State state)
         {
+            if (state == Task.State.Running)
+            {
+                progress.gameObject.SetActive(true);
+            }
             UpdateProgress(task.Lifetime.Value);
 
             var bgColor = defaultBgColor;

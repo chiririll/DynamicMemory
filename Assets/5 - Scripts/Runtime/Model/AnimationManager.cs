@@ -24,7 +24,7 @@ namespace DynamicMem.Model
         public float UnloadTaskTime { get; private set; }
         public float TaskSlideYTime { get; private set; }
         public float TaskSlideXTime { get; private set; }
-
+        public float ProgressTime { get; private set; }
 
         public AnimationManager(SimulationConfig config)
         {
@@ -32,6 +32,7 @@ namespace DynamicMem.Model
             simulationConfig.OnSpeedChanged.Subscribe(_ => UpdateSpeed()).AddTo(disp);
 
             ShiftColorTime = 0.2f;
+            ProgressTime = 0.2f;
             UpdateSpeed();
 
             DI.Add(this);
