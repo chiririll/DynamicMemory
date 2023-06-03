@@ -30,9 +30,14 @@
                 return;
             }
 
-            memory.MoveTask(currentIndex, lastAddr);
-            lastAddr += memory.LoadedTasks[currentIndex].Size;
-            currentIndex++;
+            var moved = false;
+            do
+            {
+                moved = memory.MoveTask(currentIndex, lastAddr);
+                lastAddr += memory.LoadedTasks[currentIndex].Size;
+                currentIndex++;
+            }
+            while (!moved && currentIndex < memory.LoadedTasks.Count);
         }
 
         public void Start()

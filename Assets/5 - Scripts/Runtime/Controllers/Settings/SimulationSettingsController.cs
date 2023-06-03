@@ -1,6 +1,5 @@
 ﻿using DynamicMem.Config;
 using DynamicMem.Model;
-using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;

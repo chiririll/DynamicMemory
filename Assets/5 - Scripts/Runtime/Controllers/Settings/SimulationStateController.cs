@@ -9,6 +9,7 @@ namespace DynamicMem
     {
         [SerializeField] private string runningText;
         [SerializeField] private string stoppedText;
+        [SerializeField] private string defragmentatingText;
         [Space]
         [SerializeField] private TMP_Text simulationState;
         [Space(5)]
@@ -28,16 +29,16 @@ namespace DynamicMem
             simulationManager = DI.Get<SimulationManager>();
             memory = DI.Get<MemoryManager>();
 
-            simulationManager.OnSimulationStateChanged.Subscribe(_ => UpdateState(_)).AddTo(this);
-            simulationManager.OnSimulationTick.Subscribe(_ => Tick()).AddTo(this);
-            memory.OnCleanupRequested.Subscribe(_ => Tick()).AddTo(this);
+            simulationManager.OnSimulationStateChanged.Subscribe(_ => UpdateState()).AddTo(this);
+            simulationManager.OnSimulationTick.Subscribe(_ => UpdateData()).AddTo(this);
+            memory.OnCleanupRequested.Subscribe(_ => UpdateData()).AddTo(this);
 
-            UpdateState(simulationManager.IsRunning);
-            Tick();
+            UpdateData();
         }
 
-        private void Tick()
+        private void UpdateData()
         {
+            UpdateState();
             tasksInQueueCount.text = memory.TasksInQueue.ToString();
             tasksLoadedCount.text = memory.TasksInMemory.ToString();
 
@@ -47,9 +48,20 @@ namespace DynamicMem
             fragmentation.text = $"{Mathf.Round(memory.Fragmentation * 100)}%";
         }
 
-        private void UpdateState(bool isRunning)
+        private void UpdateState()
         {
-            simulationState.text = isRunning ? runningText : stoppedText;
+            if (simulationManager.IsRunning)
+            {
+                if (memory.IsDefragmentating)
+                {
+                    simulationState.text = defragmentatingText;
+                    return;
+                }
+
+                simulationState.text = runningText;
+            }
+
+            simulationState.text = stoppedText;
         }
     }
 }

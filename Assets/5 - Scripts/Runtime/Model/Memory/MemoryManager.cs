@@ -42,6 +42,8 @@ namespace DynamicMem.Model
         public int FreeSpace => memory.FreeSpace;
         public float Fragmentation => memory.CountFragmentation();
 
+        public bool IsDefragmentating => defragmentator.Running;
+
         public IObservable<ITask> OnTaskEnqueue => memory.OnTaskEnqueue;
         public IObservable<ITask> OnTaskLoaded => memory.OnTaskLoaded;
         public IObservable<ITask> OnTaskMoved => onTaskMoved;
@@ -122,7 +124,7 @@ namespace DynamicMem.Model
 
         public void AddTask(Task task) => memory.AddTask(task);
 
-        public void MoveTask(int taskIndex, int address)
+        public bool MoveTask(int taskIndex, int address)
         {
             if (taskIndex < 0 || taskIndex >= memory.Memory.Count)
             {
@@ -136,8 +138,14 @@ namespace DynamicMem.Model
                 throw new ArgumentException("Cannot move running task");
             }
 
+            if (task.Address == address) 
+            { 
+                return false; 
+            }
+
             task.Move(address);
             onTaskMoved.OnNext(task);
+            return true;
         }
 
         public void SuspendTask(ITask task) => SetTaskStatus(task, Task.State.Idle);

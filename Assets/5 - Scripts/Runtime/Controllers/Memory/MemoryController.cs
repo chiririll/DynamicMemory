@@ -73,7 +73,16 @@ namespace DynamicMem
         {
             var item = tasks[task.Id];
 
-            SetTaskPosition(task, item);
+            if (animManager.Value.Enabled == false)
+            {
+                SetTaskPosition(task, item);
+                return;
+            }
+
+            var k = memoryContainer.rect.width / config.memory.Size;
+            item.transform.DOMoveX(
+                        memoryContainer.position.x + k * task.Address,
+                        animManager.Value.TaskSlideXTime);
         }
 
         private void UnloadTask(ITask task)
@@ -95,7 +104,7 @@ namespace DynamicMem
         private void SetTaskPosition(ITask task, TaskItem item)
         {
             var k = memoryContainer.rect.width / config.memory.Size;
-            item.SetWidth(k * task.Size);
+            //item.SetWidth(k * task.Size);
 
             if (animManager.Value.Enabled)
             {
