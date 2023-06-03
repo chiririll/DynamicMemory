@@ -14,12 +14,14 @@ namespace DynamicMem
         private SimulationManager simulationManager;
         private MemoryManager memory;
         private SettingsManager settingsManager;
+        private AnimationManager animManager;
 
         public AppManager(AppConfig config) 
         {
             simulationManager = new(config.simulation);
             memory = new(config.memory);
             settingsManager = new();
+            animManager = new(config.simulation);
 
             // Костыль
             simulationManager.OnSimulationTick.Subscribe(_ => memory.Tick()).AddTo(disp);

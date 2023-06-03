@@ -1,7 +1,12 @@
+using System;
+using UniRx;
+
 namespace DynamicMem.Config
 {
     public class SimulationConfig
     {
+        private readonly Subject<float> onSpeedChanged = new();
+
         private float simulationSpeed;
         
         public SimulationConfig()
@@ -16,9 +21,12 @@ namespace DynamicMem.Config
             { 
                 simulationSpeed = value;
                 TickTime = 1 / value;
+                onSpeedChanged.OnNext(value);
             } 
         }
 
         public float TickTime { get; private set; }
+
+        public IObservable<float> OnSpeedChanged => onSpeedChanged;
     }
 }

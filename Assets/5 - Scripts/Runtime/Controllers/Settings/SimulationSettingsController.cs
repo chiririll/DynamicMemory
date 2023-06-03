@@ -10,6 +10,7 @@ namespace DynamicMem
     public class SimulationSettingsController : MonoBehaviour
     {
         [SerializeField] private FloatUpDown simulaitonSpeed;
+        [SerializeField] private Toggle useAnimations;
         [Space]
         [SerializeField] private Button playButton;
         [SerializeField] private Button pauseButton;
@@ -19,6 +20,7 @@ namespace DynamicMem
         private readonly LazyInject<AppConfig> config = new();
 
         private readonly LazyInject<SimulationManager> simulationManager = new();
+        private readonly LazyInject<AnimationManager> animManager = new();
         private readonly LazyInject<MemoryManager> memoryManager = new();
         private readonly LazyInject<AlertController> alertController = new();
 
@@ -26,6 +28,7 @@ namespace DynamicMem
         {
             simulaitonSpeed.SetValue(config.Value.simulation.SimulationSpeed, false);
             simulaitonSpeed.OnValueChanged.Subscribe(_ => UpdateSettings()).AddTo(this);
+            useAnimations.onValueChanged.AsObservable().Subscribe(_ => ToggleAnimations()).AddTo(this);
 
             playButton.OnClickAsObservable().
                 Subscribe(_ => simulationManager.Value.Resume()).AddTo(this);
@@ -43,6 +46,11 @@ namespace DynamicMem
         private void UpdateSettings()
         {
             config.Value.simulation.SimulationSpeed = simulaitonSpeed.Value;
+        }
+
+        private void ToggleAnimations()
+        {
+            animManager.Value.Enabled = useAnimations.isOn;
         }
     }
 }

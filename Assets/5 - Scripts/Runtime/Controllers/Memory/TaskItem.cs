@@ -22,16 +22,17 @@ namespace DynamicMem
         [SerializeField] private Color defaultBgColor;
         [SerializeField] private Color defaultTextColor;
         [SerializeField] private List<StateColor> stateColors;
-        [SerializeField] private float shiftColorDuration;
-
+        
         private readonly LazyInject<AppConfig> config = new();
+        private AnimationManager animManager;
         private ITask task;
 
         public IObservable<Unit> OnClick => button.OnClickAsObservable();
 
-        public void SetData(ITask task)
+        public void SetData(ITask task, AnimationManager animManager)
         {
             this.task = task;
+            this.animManager = animManager;
 
             title.text = task.Label;
 
@@ -46,8 +47,14 @@ namespace DynamicMem
 
         public void SetWidth(float width)
         {
-            rt.DOSizeDelta(new Vector2(width, rt.sizeDelta.y), config.Value.simulation.TickTime / 2);
-            //rt.sizeDelta = new Vector2(width, rt.sizeDelta.y);
+            if (animManager.Enabled)
+            {
+                rt.DOSizeDelta(new Vector2(width, rt.sizeDelta.y), animManager.TaskResizeTime);
+            }
+            else
+            {
+                rt.sizeDelta = new Vector2(width, rt.sizeDelta.y);
+            }
         }
 
         public void UpdateProgress(int value)
@@ -75,9 +82,18 @@ namespace DynamicMem
                 break;
             }
             
-            background.DOColor(bgColor, shiftColorDuration);
-            title.DOColor(textColor, shiftColorDuration);
-            memoryUsage.DOColor(textColor, shiftColorDuration);
+            if (animManager.Enabled)
+            {
+                background.DOColor(bgColor, animManager.ShiftColorTime);
+                title.DOColor(textColor, animManager.ShiftColorTime);
+                memoryUsage.DOColor(textColor, animManager.ShiftColorTime);
+            }
+            else
+            {
+                background.color = bgColor;
+                title.color = textColor;
+                memoryUsage.color = textColor;
+            }
         }
 
         [System.Serializable]

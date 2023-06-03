@@ -2523,6 +2523,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4891686963890678136, guid: 37534f81f10dfba45830f133428f7910, type: 3}
+      propertyPath: m_text
+      value: "\u041F\u0430\u043C\u044F\u0442\u044C..."
+      objectReference: {fileID: 0}
     - target: {fileID: 5125339906631726305, guid: 37534f81f10dfba45830f133428f7910, type: 3}
       propertyPath: m_Name
       value: MemorySize
