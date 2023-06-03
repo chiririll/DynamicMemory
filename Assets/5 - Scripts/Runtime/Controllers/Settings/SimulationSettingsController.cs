@@ -10,6 +10,7 @@ namespace DynamicMem
     {
         [SerializeField] private FloatUpDown simulaitonSpeed;
         [SerializeField] private Toggle useAnimations;
+        [SerializeField] private Toggle pauseOnDefragmentation;
         [Space]
         [SerializeField] private Button playButton;
         [SerializeField] private Button pauseButton;
@@ -28,6 +29,7 @@ namespace DynamicMem
             simulaitonSpeed.SetValue(config.Value.simulation.SimulationSpeed, false);
             simulaitonSpeed.OnValueChanged.Subscribe(_ => UpdateSettings()).AddTo(this);
             useAnimations.onValueChanged.AsObservable().Subscribe(_ => ToggleAnimations()).AddTo(this);
+            memoryManager.Value.OnDefragmentationStarted.Subscribe(_ => PauseOnDefragmentation()).AddTo(this);
 
             playButton.OnClickAsObservable().
                 Subscribe(_ => simulationManager.Value.Resume()).AddTo(this);
@@ -50,6 +52,13 @@ namespace DynamicMem
         private void ToggleAnimations()
         {
             animManager.Value.Enabled = useAnimations.isOn;
+        }
+
+        private void PauseOnDefragmentation()
+        {
+            if (!pauseOnDefragmentation.isOn) return;
+
+            simulationManager.Value.Pause();
         }
     }
 }

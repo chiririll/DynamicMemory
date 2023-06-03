@@ -32,13 +32,14 @@ namespace DynamicMem
             simulationManager.OnSimulationStateChanged.Subscribe(_ => UpdateState()).AddTo(this);
             simulationManager.OnSimulationTick.Subscribe(_ => UpdateData()).AddTo(this);
             memory.OnCleanupRequested.Subscribe(_ => UpdateData()).AddTo(this);
+            memory.OnDefragmentationStarted.Subscribe(_=> UpdateState()).AddTo(this);
 
+            UpdateState();
             UpdateData();
         }
 
         private void UpdateData()
         {
-            UpdateState();
             tasksInQueueCount.text = memory.TasksInQueue.ToString();
             tasksLoadedCount.text = memory.TasksInMemory.ToString();
 
@@ -59,6 +60,7 @@ namespace DynamicMem
                 }
 
                 simulationState.text = runningText;
+                return;
             }
 
             simulationState.text = stoppedText;

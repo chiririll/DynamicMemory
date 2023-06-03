@@ -1,7 +1,12 @@
-﻿namespace DynamicMem.Model
+﻿using System;
+using UniRx;
+
+namespace DynamicMem.Model
 {
     public class Defragmentator
     {
+        private readonly Subject<bool> onDefragmentationStarted = new();
+
         private MemoryManager memory;
         
         private int lastAddr;
@@ -16,6 +21,7 @@
         }
 
         public bool Running { get; private set; } = false;
+        public IObservable<bool> OnDefragmentationStarted => onDefragmentationStarted;
 
         public void Tick()
         {
@@ -43,6 +49,7 @@
         public void Start()
         {
             Running = true;
+            onDefragmentationStarted.OnNext(true);
 
             foreach (var task in memory.LoadedTasks)
             {
