@@ -9,8 +9,7 @@ namespace DynamicMem
 {
     public class SimulationSettingsController : MonoBehaviour
     {
-        [SerializeField] private TMP_InputField simulaitonSpeed;
-        [SerializeField] private Button submitSimulationSpeed;
+        [SerializeField] private FloatUpDown simulaitonSpeed;
         [Space]
         [SerializeField] private Button playButton;
         [SerializeField] private Button pauseButton;
@@ -25,9 +24,10 @@ namespace DynamicMem
 
         public void Init()
         {
-            simulaitonSpeed.text = config.Value.simulation.SimulationSpeed.ToString();
+            simulaitonSpeed.Init();
 
-            submitSimulationSpeed.OnClickAsObservable().Subscribe(_ => UpdateSettings()).AddTo(this);
+            simulaitonSpeed.SetValue(config.Value.simulation.SimulationSpeed, false);
+            simulaitonSpeed.OnValueChanged.Subscribe(_ => UpdateSettings()).AddTo(this);
 
             playButton.OnClickAsObservable().
                 Subscribe(_ => simulationManager.Value.Resume()).AddTo(this);
@@ -44,23 +44,7 @@ namespace DynamicMem
 
         private void UpdateSettings()
         {
-            if (!CheckFields(out var speed))
-                return;
-
-            config.Value.simulation.SimulationSpeed = speed;
-        }
-
-        private bool CheckFields(out int speed)
-        {
-            var valid = true;
-
-            if (!int.TryParse(simulaitonSpeed.text, out speed) || speed <= 0)
-            {
-                valid = false;
-                simulaitonSpeed.HighlightUntilClick();
-            }
-
-            return valid;
+            config.Value.simulation.SimulationSpeed = simulaitonSpeed.Value;
         }
     }
 }
