@@ -9,7 +9,7 @@ namespace DynamicMem
     public class AddTaskController : MonoBehaviour
     {
         [SerializeField] private TMP_InputField label;
-        [SerializeField] private TMP_InputField lifetime;
+        [SerializeField] private IntUpDown lifetime;
         [SerializeField] private MemoryUnitInputField memorySize;
         [SerializeField] private Button submit;
 
@@ -33,11 +33,7 @@ namespace DynamicMem
         {
             var result = true;
 
-            if (!int.TryParse(this.lifetime.text, out lifetime) || lifetime <= 0)
-            {
-                result = false;
-                this.lifetime.HighlightUntilClick();
-            }
+            lifetime = this.lifetime.Value;
             
             if (!memorySize.TryGetValue(out size, memory.Value.Size))
             {

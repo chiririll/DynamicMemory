@@ -44,6 +44,7 @@ namespace DynamicMem.Model
 
         public bool IsDefragmentating => defragmentator.Running;
         public IObservable<bool> OnDefragmentationStarted => defragmentator.OnDefragmentationStarted;
+        public IObservable<bool> OnDefragmentationEnded => defragmentator.OnDefragmentationEnded;
 
         public IObservable<ITask> OnTaskEnqueue => memory.OnTaskEnqueue;
         public IObservable<ITask> OnTaskLoaded => memory.OnTaskLoaded;

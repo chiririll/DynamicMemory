@@ -40,7 +40,8 @@ namespace DynamicMem
 
             memoryUsage.text = task.Size.ToMemoryString();
 
-            progress.gameObject.SetActive(false);
+            progressText.text = $"0/{task.MaxLifetime}";
+            progress.fillRect.gameObject.SetActive(false);
             progress.maxValue = task.MaxLifetime;
             task.Lifetime.Subscribe(UpdateProgress);
 
@@ -65,10 +66,10 @@ namespace DynamicMem
             if (task.Status.Value != Task.State.Running) 
                 return;
             
-            progressText.text = $"{value}/{progress.maxValue}";
-            if (animManager.Enabled && value < progress.maxValue)
+            progressText.text = $"{value}/{task.MaxLifetime}";
+            if (animManager.Enabled)
             {
-                progress.DOValue(value, animManager.ProgressTime).SetEase(Ease.Linear);
+                progress.DOValue(value, animManager.ProgressTime);
             }
             else
             {
@@ -80,7 +81,7 @@ namespace DynamicMem
         {
             if (state == Task.State.Running)
             {
-                progress.gameObject.SetActive(true);
+                progress.fillRect.gameObject.SetActive(true);
             }
             UpdateProgress(task.Lifetime.Value);
 

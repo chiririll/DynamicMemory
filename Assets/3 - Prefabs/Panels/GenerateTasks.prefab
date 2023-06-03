@@ -1093,6 +1093,14 @@ PrefabInstance:
       propertyPath: m_text
       value: "\u0417\u043D\u0430\u0447..."
       objectReference: {fileID: 0}
+    - target: {fileID: 8584472739665346204, guid: 4824ed1f7f697184899191a76605c1f7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584472739726116135, guid: 4824ed1f7f697184899191a76605c1f7, type: 3}
+      propertyPath: m_text
+      value: "\u200B"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4824ed1f7f697184899191a76605c1f7, type: 3}
 --- !u!1 &15885398107400501 stripped
@@ -1114,7 +1122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upDown: {fileID: 229197578878133644}
   step: 1
-  defaultValue: 1
+  defaultValue: 10
   limitMinValue: 1
   minValue: 0
   limitMaxValue: 0
@@ -1343,13 +1351,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4891686963834016451, guid: 37534f81f10dfba45830f133428f7910, type: 3}
+      propertyPath: m_text
+      value: "12\u200B"
+      objectReference: {fileID: 0}
     - target: {fileID: 4891686963890678136, guid: 37534f81f10dfba45830f133428f7910, type: 3}
       propertyPath: m_text
       value: "\u041F\u0430\u043C\u044F\u0442\u044C..."
       objectReference: {fileID: 0}
+    - target: {fileID: 4891686963890678136, guid: 37534f81f10dfba45830f133428f7910, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891686963969024706, guid: 37534f81f10dfba45830f133428f7910, type: 3}
+      propertyPath: m_Text
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5125339906631726305, guid: 37534f81f10dfba45830f133428f7910, type: 3}
       propertyPath: m_Name
       value: MemorySize
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897051425483800317, guid: 37534f81f10dfba45830f133428f7910, type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37534f81f10dfba45830f133428f7910, type: 3}
@@ -1580,13 +1604,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4891686963834016451, guid: 37534f81f10dfba45830f133428f7910, type: 3}
+      propertyPath: m_text
+      value: "1\u200B"
+      objectReference: {fileID: 0}
     - target: {fileID: 4891686963890678136, guid: 37534f81f10dfba45830f133428f7910, type: 3}
       propertyPath: m_text
       value: "\u041F\u0430\u043C\u044F\u0442\u044C..."
       objectReference: {fileID: 0}
+    - target: {fileID: 4891686963890678136, guid: 37534f81f10dfba45830f133428f7910, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891686963969024706, guid: 37534f81f10dfba45830f133428f7910, type: 3}
+      propertyPath: m_Text
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5125339906631726305, guid: 37534f81f10dfba45830f133428f7910, type: 3}
       propertyPath: m_Name
       value: MemorySize
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897051425483800317, guid: 37534f81f10dfba45830f133428f7910, type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37534f81f10dfba45830f133428f7910, type: 3}
@@ -1608,9 +1648,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6330513750271538618}
     m_Modifications:
+    - target: {fileID: 6402023397508722236, guid: 4bcb8d24f023bba49a00e908a31a120d, type: 3}
+      propertyPath: m_text
+      value: "\u200B"
+      objectReference: {fileID: 0}
     - target: {fileID: 6402023397582148999, guid: 4bcb8d24f023bba49a00e908a31a120d, type: 3}
       propertyPath: m_text
       value: "\u0417\u043D\u0430\u0447..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 6402023397582148999, guid: 4bcb8d24f023bba49a00e908a31a120d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6655485058300693341, guid: 4bcb8d24f023bba49a00e908a31a120d, type: 3}
       propertyPath: m_Pivot.x
@@ -1841,7 +1889,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upDown: {fileID: 6651374469403315900}
   step: 1
-  defaultValue: 1
+  defaultValue: 4
   limitMinValue: 1
   minValue: 1
   limitMaxValue: 0
@@ -1865,7 +1913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upDown: {fileID: 5253141496528123257}
   step: 1
-  defaultValue: 1
+  defaultValue: 12
   limitMinValue: 1
   minValue: 1
   limitMaxValue: 0
@@ -1892,9 +1940,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8718547943702109241}
     m_Modifications:
+    - target: {fileID: 6402023397508722236, guid: 4bcb8d24f023bba49a00e908a31a120d, type: 3}
+      propertyPath: m_text
+      value: "\u200B"
+      objectReference: {fileID: 0}
     - target: {fileID: 6402023397582148999, guid: 4bcb8d24f023bba49a00e908a31a120d, type: 3}
       propertyPath: m_text
       value: "\u0417\u043D\u0430\u0447..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 6402023397582148999, guid: 4bcb8d24f023bba49a00e908a31a120d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6655485058300693341, guid: 4bcb8d24f023bba49a00e908a31a120d, type: 3}
       propertyPath: m_Pivot.x

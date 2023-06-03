@@ -6,6 +6,7 @@ namespace DynamicMem.Model
     public class Defragmentator
     {
         private readonly Subject<bool> onDefragmentationStarted = new();
+        private readonly Subject<bool> onDefragmentationEnded = new();
 
         private MemoryManager memory;
         
@@ -22,6 +23,7 @@ namespace DynamicMem.Model
 
         public bool Running { get; private set; } = false;
         public IObservable<bool> OnDefragmentationStarted => onDefragmentationStarted;
+        public IObservable<bool> OnDefragmentationEnded => onDefragmentationEnded;
 
         public void Tick()
         {
@@ -63,6 +65,8 @@ namespace DynamicMem.Model
         private void Finish()
         {
             Running = false;
+
+            onDefragmentationEnded.OnNext(false);
 
             lastAddr = 0;
             currentIndex = 0;

@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using DynamicMem.Config;
 using DynamicMem.Model;
 using System;
@@ -36,8 +37,12 @@ namespace DynamicMem
             memory.OnTaskUnloaded.Subscribe(UnloadTask).AddTo(disp);
 
             memory.OnCleanupRequested.Subscribe(_ => Cleanup()).AddTo(disp);
+        }
 
-            // TODO: Load current state
+        private void LoadCurrentState()
+        {
+            Cleanup();
+
             foreach (var task in memory.LoadedTasks)
             {
                 CreateTaskInQueue(task);
@@ -85,20 +90,17 @@ namespace DynamicMem
                         animManager.Value.TaskSlideXTime);
         }
 
-        private void UnloadTask(ITask task)
+        private async void UnloadTask(ITask task)
         {
             var item = tasks[task.Id];
 
             tasks.Remove(task.Id);
             if (animManager.Value.Enabled)
             {
-                item.transform.DOMoveY(-100, animManager.Value.UnloadTaskTime).SetEase(Ease.Linear);
-                Destroy(item.gameObject, animManager.Value.UnloadTaskTime);
+                await UniTask.Delay((int)(animManager.Value.UnloadTaskDelay * 1000));
+                await item.transform.DOMoveY(-100, animManager.Value.UnloadTaskTime).SetEase(Ease.Linear);
             }
-            else
-            {
-                Destroy(item.gameObject);
-            }
+            Destroy(item.gameObject);
         }
 
         private void SetTaskPosition(ITask task, TaskItem item)
